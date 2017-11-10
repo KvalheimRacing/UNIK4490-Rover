@@ -1,7 +1,7 @@
 # UNIK4490-Rover
-4 by 4 rover project
+![4 by 4 rover project](https://github.com/KvalheimRacing/UNIK4490-Rover/raw/master/rover_pic.PNG = 250x250)
 
-This is a joint collaboration between two groups studying *UNIK4490 - Control of manipulators and mobile robots at the University of Oslo.*
+This is a joint collaboration between two groups studying [*UNIK4490 - Control of manipulators and mobile robots*](http://www.uio.no/studier/emner/matnat/its/UNIK4490/index-eng.html) at the University of Oslo.
 In this project we are implementing controllers for path planning and velocity control of each wheel.
 
 
@@ -17,5 +17,5 @@ The folder "Rover_1" contains all software for the rover without lidar, and the 
 
 #### Other useful information (pending)
 - IP adress for connecting to the rover; 192.168.1.2
-- Rover 2 har et traadlost nett man kan koble seg paa (pwd mangler)
-- Hvordan kommunikasjon med Rover 1 foregår er uvisst
+- Rover 2 has wifi (pwd missing)
+- How we can communicate with Rover 1 is still unknown
