@@ -19,3 +19,4 @@ The folder "Rover_1" contains all software for the rover without lidar, and the 
 - IP adress for connecting to the rover; 192.168.1.2
 - Rover 2 has wifi (pwd missing)
 - How we can communicate with Rover 1 is still unknown
+- [uio repo](https://github.uio.no/eirikval/UNIK4490-Rover)
