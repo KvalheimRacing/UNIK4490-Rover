@@ -11,12 +11,15 @@ In this project we are implementing controllers for path planning and velocity c
 | ----- | ---- |
 |Hsiang Neng - hn-gh12-1634t 200rpm 30:1 geared |motor with encoder|
 |Intel Nuc |computer|
+|Some unknown teensy version| small arduino board for reading encoder data| 
 
 The folder "Rover_1" contains all software for the rover without lidar, and the folder "Rover_2" contains the software for the rover with lidar
 
 
 #### Other useful information (pending)
-- IP adress for connecting to the rover; 192.168.1.2
-- Rover 2 has wifi (pwd missing)
-- How we can communicate with Rover 1 is still unknown
-- [uio repo](https://github.uio.no/eirikval/UNIK4490-Rover)
+- Rover 2 has wifi (pwd missing) - so not in use atm
+- All encoders on rover 1 is working (although unstable usb), there is a teensy for reading the values (rover 2 has the same setup, but not tested)
+- The motor driver on each rover controls both wheel at one side at the same time (meaning you control either left or right wheels)
+- driver_pid.py did not work, we modified driver.py (that worked), to include driving the wheels on both sides and reading encoder data.
+- driver.py needs further to listen to the topic /cmd_vel and assign speeds based on that (or one can fix driver_pid.py).
+- [uio repo](https://github.uio.no/UNIK4490/rover_setup)
