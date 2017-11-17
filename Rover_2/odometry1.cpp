@@ -22,9 +22,9 @@ public:
         float oldTheta = m_theta;
 
         m_theta = m_theta + omega*m_timeInterval;
-	m_theta = fmod(m_theta, 2*3.14);
-	if(m_theta > 3.14) m_theta = m_theta-2*3.14;
-	if(m_theta < -3.14) m_theta + 2*3.14;
+	    m_theta = fmod(m_theta, 2*3.14);
+	    if(m_theta > 3.14) m_theta = m_theta-2*3.14;
+	    if(m_theta < -3.14) m_theta = m_theta + 2*3.14;
 
         m_velocity = sumVel/2;
 
@@ -68,7 +68,7 @@ int main(int argc, char **argv)
     initPos.x = atof(argv[1]);
     initPos.y = atof(argv[2]);
     float theta = atof(argv[3]);
-    
+
     ros::init(argc, argv, "odometry_node");
     ros::NodeHandle nh;
     ros::Publisher odometryPublisher = nh.advertise<geometry_msgs::Point32>("odometry", 10);
@@ -76,7 +76,7 @@ int main(int argc, char **argv)
     ros::Rate loopRate(10);
 
     PositionHandler positionHandler(initPos, theta, 0.06, 0.2);
-    
+
     ros::Subscriber velocitySubscriber = nh.subscribe("/est_vel", 1, &PositionHandler::updatePosition, &positionHandler);
 
     while(ros::ok()){
