@@ -19,56 +19,47 @@ public:
         m_position.y = 0;
     }
 
+    
     void updatePosition(geometry_msgs::Point32 position){
         m_position = position;
-	//std::cout << "x: " << position.x << "\t y: " << position.y << "\n";
     }
 
+    
     void updateTheta(std_msgs::Float32 theta){
         m_theta = theta;
     }
 
+    
     rover1_motordriver::Velocity calculateVelocities(){
-      //hysterese på vinkel 
-        if(!(m_position.x < 0.05 && m_position.y < 0.05 /*&& m_theta.data < 0.25*/) || !(m_position.x > -0.05 && m_position.y > -0.05 /*&& m_theta.data > -0.25*/)){
-
-            m_rho = sqrt(m_position.x*m_position.x + m_position.y*m_position.y);
-
-            m_gamma = fmod((atan2(m_position.y, m_position.x) - m_theta.data + 3.14), (2*3.14));
-		
-	    if(m_gamma > 3.14) m_gamma = (m_gamma - 2*3.14);
-	    if(m_gamma < -3.14) m_gamma = (m_gamma + 2*3.14);
-	    //if(m_gamma < 0.05 || m_gamma > -0.05) m_gamma = 0;
-            float delta = m_gamma + m_theta.data;
-
-            /*if(m_gamma != 0){
-		m_angularVelocity.right_vel = (2*m_k1*m_rho*cos(m_gamma) + m_diameter*m_k2*m_gamma + 
-                                              (m_diameter*m_k1*sin(m_gamma)*cos(m_gamma)/m_gamma)*(m_gamma + m_k3*delta))/(2*m_radius);
-    	        m_angularVelocity.left_vel = (2*m_k1*m_rho*cos(m_gamma) - m_diameter*m_k2*m_gamma - m_k1*m_diameter*(sin(m_gamma)*cos(m_gamma)/m_gamma)*(m_gamma + m_k3*delta))/(2*m_radius);
-	    }
-	    else{
-		m_angularVelocity.right_vel = m_k1*m_rho/m_radius;
-		m_angularVelocity.left_vel = m_angularVelocity.right_vel;
-	    }*/
-
-	     m_angularVelocity.right_vel = (2*m_k1*m_rho*cos(m_gamma) + m_diameter*m_k2*m_gamma +
-                                              (m_diameter*m_k1*sin(m_gamma)*cos(m_gamma)/m_gamma)*(m_gamma + m_k3*delta))/(2*m_radius);
-                m_angularVelocity.left_vel = (2*m_k1*m_rho*cos(m_gamma) - m_diameter*m_k2*m_gamma - m_k1*m_diameter*(sin(m_gamma)*cos(m_gamma)/m_gamma)*(m_gamma + m_k3*delta))/(2*m_radius);
-	    //if(m_angularVelocity.right_vel > 40) m_angularVelocity = 40;
-	    //if(m_angularVelocity.left_vel > 40) m_
-	    //dersom fart er lavere enn 5 sett lik 0 ?? 
-
-	    //std::cout << "Angular Velocity: right: " << m_angularVelocity.right_vel << "\t left: " << m_angularVelocity.left_vel <<"\t vinkel:" <<m_theta << "\n\n"; 
-	    //tror det er noe muffins med hva som kommer ut her og det som blir sent inn i PID ?? 
+        
+        // Check if position is acceptable (less than 0.05 deviation)
+        if((m_position.x > 0.05 && m_position.y > 0.05) || (m_position.x < -0.05 && m_position.y < -0.05)){
             
+            m_rho = sqrt(m_position.x*m_position.x + m_position.y*m_position.y);
+            m_gamma = fmod((atan2(m_position.y, m_position.x) - m_theta.data + 3.14), (2*3.14));
+          
+            if (m_gamma > 3.14) {
+                m_gamma = (m_gamma - 2*3.14);
+            } 
+            else if (m_gamma < -3.14) {
+                m_gamma = (m_gamma + 2*3.14);
+            }
+            
+            m_delta = m_gamma + m_theta.data;
+            
+            // Calculate velocities
+            m_angularVelocity.right_vel = (2*m_k1*m_rho*cos(m_gamma) + m_diameter*m_k2*m_gamma +
+                                            (m_diameter*m_k1*sin(m_gamma)*cos(m_gamma)/m_gamma)*(m_gamma + m_k3*m_delta)) / (2*m_radius);
+           
+            m_angularVelocity.left_vel = (2*m_k1*m_rho*cos(m_gamma) - m_diameter*m_k2*m_gamma - 
+                                            m_k1*m_diameter*(sin(m_gamma)*cos(m_gamma)/m_gamma)*(m_gamma + m_k3*m_delta)) / (2*m_radius);         
+        } 
+        else { // Stop moving if position is acceptable 
+            m_angularVelocity.right_vel = 0;
+            m_angularVelocity.left_vel = 0;
         }
-	else{
-	    m_angularVelocity.right_vel = 0;
-	    m_angularVelocity.left_vel = 0;
-	}
 	
-	std::cout << "Angular Velocity: right: " << m_angularVelocity.right_vel << "\t left: " << m_angularVelocity.left_vel <<"\t vinkel:" <<m_theta << "\n\n";
-
+        std::cout << "Angular Velocity: right: " << m_angularVelocity.right_vel << "\t left: " << m_angularVelocity.left_vel <<"\t vinkel:" <<m_theta << "\n\n";
         return m_angularVelocity;
     }
 
@@ -82,17 +73,19 @@ private:
     float m_k3 = 1;
     float m_rho = 0;
     float m_gamma = 0;
+    float m_delta = 0; // new
     float m_diameter = 1;
     float m_radius = 1;
-
 };
 
-int main(int argc, char **argv)
-{
+
+int main(int argc, char **argv) {
+    
     if(argc < 4){
         ROS_INFO("Please start node with: rosrun rover1_motordriver posture_controller 'k1' 'k2' 'k3'\n");
         return 0;
     }
+    
     ros::init(argc, argv, "posture_controller_node");
     ros::NodeHandle nh;
     ros::Publisher angularVelocityPublisher = nh.advertise<rover1_motordriver::Velocity>("/cmd_vel", 10);
@@ -106,8 +99,7 @@ int main(int argc, char **argv)
 
     while(ros::ok()){
         ros::spinOnce();
-	angularVelocityPublisher.publish(postureHandler.calculateVelocities());
+        angularVelocityPublisher.publish(postureHandler.calculateVelocities());
         loopRate.sleep();
     }
-    
 }
