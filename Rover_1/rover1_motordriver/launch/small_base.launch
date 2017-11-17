@@ -1,0 +1,8 @@
+<launch>
+
+   <node name="rover_motordriver" pkg="rover_motordriver" type="driver_pid.py"/>
+<!--   <include file="$(find rplidar_ros)/launch/rplidar.launch" />-->
+    <node pkg="tf" type="static_transform_publisher" name="laser_base_broadcaster" args="0 0 0.15 0 3.14159265 0 base_link laser_frame 100" />
+    <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" args="0 0 0 0 0 0 laser_frame laser 100" />
+    
+</launch>
