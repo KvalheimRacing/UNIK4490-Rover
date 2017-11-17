@@ -49,6 +49,8 @@ class PositionByOdometry{
                 return tmp;
             }
 
+            ~PositionByOdometry(); // Destructor
+
     private:
         geometry_msgs::Point32 position;            // Position message containing x and y position
         float angular_velocity_r, angular_velocity_l, theta, wheel_radius, velocity, delta_t, traversial_wheelbase;
