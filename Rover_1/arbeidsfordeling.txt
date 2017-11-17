@@ -1,0 +1,18 @@
+Martin:
+- Skrive matematikken rundt posisjonskontroll.
+
+David:
+- Skrive matematikken rundt odometrien
+
+Forat: ?
+
+Disposisjon:
+- Innledning
+	- Utstyr
+	- Orginale drivere
+- Odometri
+	- Matematisk modell
+- Posture controller
+	- matematisk modell
+- Tester
+- Konklusjon
