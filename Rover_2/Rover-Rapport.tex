@@ -89,6 +89,10 @@
 	
 	%\vfill\vfill
 	%\includegraphics[width=0.2\textwidth]{placeholder.jpg}\\[1cm] % Include a department/university logo - this will require the graphicx package
+	\begin{figure}[H]
+	\centering
+	 \includegraphics[width=0.5\textwidth]{rover_pic.png}
+	\end{figure}
 	 
 	%----------------------------------------------------------------------------------------
 	
@@ -102,14 +106,8 @@
 \renewcommand{\labelenumi}{\alph{enumi})}
 
 
-\section*{Some Heading}
+\section*{Introduction}
 
-\begin{figure}[H]
-\centering
- \includegraphics[width=0.5\textwidth]{rover_pic.png}
- \caption{4 by 4 Rover}
- \label{fig:1}
-\end{figure}
 
 The main task of the project was to make the robot move to a desired pose, and this was divided into four subtasks/stages as listed below the following summary:\\  
 \textit{A significant portion of the project time was spent on reverse engineering the robot to better understand the system before we could begin implementing our own solutions.  
@@ -118,22 +116,36 @@ Most of the work was done in collaboration with the other group,
 as we were working on the same robot while trying to get the system up and running. \\
 (Note! One important subtask that is not mentioned in the list was to create a system of ROS nodes, for which we had to learn about ROS.)}
 
-\begin{figure}[H]
-\centering
- \includegraphics[width=0.5\textwidth]{blokkskjema}
- \caption{Block diagram of the system.}
- \label{fig:2}
-\end{figure}
+\section*{The System}
+	\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{blokkskjema}
+	\caption{Block diagram of the system.}	
+ 	\label{fig:2}
+	\end{figure}
 
-\begin{itemize}
-	\item[1.]Implement motor control for each wheel \\
+\subsection*{Motor Control}
+	Implement motor control for each wheel \\
 		We started our project by running and reverse engineering the mobile robot together with the other group. 
 		As we were not familiar with the system and since there were no README or comments in the code, the challenges for reverse engineering the motor controller was: 
 		to login, to run robot, understand the controller and deduce the reason behind the constants in the controller.
 		The implementation of motor control for each wheel was already avaiable in the robots source. 
+
+\subsection*{Odometric Localization}
 		
-	\item[2.]Implement odometric localization
-	\item[3.]Implement posture regulation motion control \\
+		\begin{equation}
+		x_{k+1}=x_k+\frac{v_k}{\omega_k}(sin\theta_{k+1}-sin\theta_k)
+		\end{equation}
+		\begin{equation}
+		y_{k+1}=y_k+\frac{v_k}{\omega_k}(cos\theta_{k+1}-cos\theta_k)
+		\end{equation}
+		\begin{equation}
+		\theta_{k+1}=\theta_k+\omega_kT_s
+		\end{equation}
+		
+\subsection*{Posture Regulation}
+
+	
 		In general the posture regulation controller takes in the configuration variables, $q = [x, y, \theta]^{T}$, 
 		and outputs v and $\omega$.
 		It is assumed that the desired variables are $q_{d} = [0, 0, 0]^{T}$ and the error from $q_{d}$ is represented by following variables:
@@ -171,8 +183,7 @@ as we were working on the same robot while trying to get the system up and runni
 			\omega_{L} = \frac{2k_{1}\rho cos(\gamma)}{2r} - \frac{dk_{2}\gamma}{2r} - \frac{dsin(\gamma)cos(\gamma)(\gamma + k_{3}\delta)}{2r\gamma}
 		\end{equation}
 		
-	\item[4.]Move the robot to a pose
-\end{itemize}
+\section*{Testing the Robot}
 
 
 \end{document}
