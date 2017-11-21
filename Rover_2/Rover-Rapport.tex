@@ -111,14 +111,22 @@
  \label{fig:1}
 \end{figure}
 
-
-Tasks
+The main task of the project was to make the robot move to a desired pose, and this was divided into four subtasks/stages as listed below the following summary:\\  
+\textit{A significant portion of the project time was spent on reverse engineering the robot to better understand the system before we could begin implementing our own solutions.  
+We decided to keep the original PID motor control code and write code for odometric localization and posture regulation. 
+Most of the work was done in collaboration with the other group, 
+as we were working on the same robot while trying to get the system up and running.
+(Note! One important subtask that is not mentioned in the list was to create a system of ROS nodes, for which we had to learn about ROS.)}
 
 \begin{itemize}
-	\item[1.]Move the robot to a pose
+	\item[1.]Implement motor control for each wheel \\
+		We started our project by running and reverse engineering the mobile robot together with the other group. 
+		As we were not familier with the system and there were no README or comments the challenges here was: 
+		login, run robot, understand the controller and deduce the reason behind the constants in the controller.
+		The implementation of motor control for each wheel was already avaiable in the robots source. 
+		
 	\item[2.]Implement odometric localization
-	\item[3.]Implement motor control for each wheel
-	\item[4.]Implement posture regulation motion control \\
+	\item[3.]Implement posture regulation motion control \\
 		In general the posture regulation controller takes in the configuration variables, $q = [x, y, \theta]^{T}$, 
 		and outputs v and $\omega$.
 		It is assumed that the desired variables are $q_{d} = [0, 0, 0]^{T}$ and the error from $q_{d}$ is represented by following variables:
@@ -155,6 +163,8 @@ Tasks
 		\begin{equation}
 			\omega_{L} = \frac{2k_{1}\rho cos(\gamma)}{2r} - \frac{dk_{2}\gamma}{2r} - \frac{dsin(\gamma)cos(\gamma)(\gamma + k_{3}\delta)}{2r\gamma}
 		\end{equation}
+		
+	\item[4.]Move the robot to a pose
 \end{itemize}
 
 
