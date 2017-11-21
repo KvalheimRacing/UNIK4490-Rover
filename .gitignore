@@ -33,3 +33,4 @@ build/
 # built application files
 *.apk
 *.ap_
+*.aux
