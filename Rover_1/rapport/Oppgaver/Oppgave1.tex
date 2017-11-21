@@ -1,0 +1,106 @@
+%!TEX root = ../RobotOblig3.tex
+%Oppgave1.tex
+
+
+\begin{equation}
+\begin{array}{ll}
+\rho = &\sqrt{x^2+y^2}\\
+\gamma = & Atan2(x,y)-\theta + \pi\\
+\delta = & \gamma + \theta
+\end{array}
+\end{equation}
+
+\begin{equation}
+\begin{array}{llr}
+v = & \frac{r(\omega_R + \omega_L)}{2} &\text{Kinematikk}\\
+\omega = & \frac{r(\omega_R - \omega_L)}{d}&\text{Kinematikk}\\
+v = &k_1 \rho cos\gamma& \text{kontroller (11.81)}\\
+\omega = &k_2 \gamma + k_1 \frac{sin\gamma cos\gamma}{\gamma}(\gamma+k_3 \delta)& \text{kontroller (11.82)}
+\end{array}
+\end{equation}
+d = bredden mellom hjulene\\ $\omega_R og \omega_L$ er vinkelhastighet høyre og venstre hjul. \\
+$v = $ hastigheten til roveren\\
+$w = $ endring i hastighet\\
+Setter at hastigheten i kinematikken = hastigheten i kontrolleren
+\begin{equation}
+\begin{array}{rl}
+\frac{r(\omega_R + \omega_L)}{2} = & k_1 \rho cos\gamma\\
+\end{array}
+\end{equation}
+\begin{equation}
+\omega_R = \frac{2(k_1 \rho cos\gamma)}{r} - \omega_L
+\label{vwR}
+\end{equation}
+\begin{equation}
+\omega_L = \frac{2(k_1 \rho cos\gamma)}{r} - \omega_R
+\label{vwL}
+\end{equation}
+
+Tilsvarende settes vinkelendringene $w_{kinnematikk} = w_{kontroller}$:
+\begin{equation}
+\begin{array}{rl}
+\frac{r(\omega_R - \omega_L)}{d} = &k_2 \gamma + k_1 \frac{sin\gamma cos\gamma}{\gamma}(\gamma+k_3 \delta)\\
+
+\omega_R - \omega_L = & d\frac{ k_2 \gamma + k_1 \frac{sin\gamma cos\gamma}{\gamma}(\gamma+k_3 \delta)}{r}\\
+
+
+
+\end{array}
+\end{equation}
+\begin{equation}
+\omega_R  = \omega_L + d\frac{ k_2 \gamma}{r} + d\frac{k_1 \frac{sin\gamma cos\gamma}{\gamma}(\gamma+k_3 \delta)}{r} 
+\label{wwR}
+\end{equation}
+\begin{equation}
+\omega_L  = \omega_R - d\frac{ k_2 \gamma}{r} - d\frac{k_1 \frac{sin\gamma cos\gamma}{\gamma}(\gamma+k_3 \delta)}{r}
+\label{wwL}
+\end{equation}
+
+setter sammen \ref{vwR} og \ref{wwL}
+
+\begin{equation}
+\begin{array}{rl}
+2 \omega_R  =& \frac{2(k_1 \rho cos\gamma)}{r} + \frac{d k_2 \gamma}{r} + \frac{d k_1 \frac{sin\gamma cos\gamma}{\gamma}(\gamma+k_3 \delta)}{r} \\
+\blacktriangleright \omega_R  =& \frac{2(k_1 \rho cos\gamma)}{2r} + \frac{d k_2 \gamma}{2r} + \frac{d k_1 \frac{sin\gamma cos\gamma}{\gamma}(\gamma+k_3 \delta)}{2r}
+\end{array}
+\label{wR}
+\end{equation}
+
+setter sammen \ref{vwL} og \ref{wwR}
+\begin{equation}
+\begin{array}{rl}
+2\omega_L  =& \frac{2(k_1 \rho cos\gamma)}{r} - \frac{d k_2 \gamma}{r} - \frac{d k_1 \frac{sin\gamma cos\gamma}{\gamma}(\gamma+k_3 \delta)}{r}\\
+\blacktriangleright \omega_L  =& \frac{2(k_1 \rho cos\gamma)}{2r} - \frac{d k_2 \gamma}{2r} - \frac{d k_1 \frac{sin\gamma cos\gamma}{\gamma}(\gamma+k_3 \delta)}{2r}
+\end{array}
+\label{wL}
+\end{equation}
+
+Viktig og legge merke til at for $\rho = 0$ blir inputvektoren v singulær. Itilleg er det vikig og legge merke til at viklene $\gamma og \delta$ er udefinert for x = y = 0, grunnet Atan2 er udefinert i dette punktet. 
+
+Vi har altså designet kontrolleren ttil og mota en x y $\theta$ posisjon fra hjul oddemetrien, og sender ut vinkelhastighets pådrag til hvert hjulsett(høyre og venstre). 
+Ettersom vår kontroller blir udefinert når posisjone x=y=0 har vi sørget for at kontrolleren gir null i pådrag når vi er nærme dette punktet. 
+\begin{lstlisting}[frame=single]
+        if(!(m_position.x < 0.05 && m_position.y < 0.05 ) || !(m_position.x > -0.05 && m_position.y > -0.05)){
+
+        		m_rho = sqrt(m_position.x*m_position.x + m_position.y*m_position.y);
+
+        		m_gamma = fmod((atan2(m_position.y, m_position.x) - m_theta.data + 3.14), (2*3.14));
+		
+	    		if(m_gamma > 3.14) m_gamma = (m_gamma - 2*3.14);
+	    		if(m_gamma < -3.14) m_gamma = (m_gamma + 2*3.14);
+	   
+        		float delta = m_gamma + m_theta.data;
+
+	    		m_angularVelocity.right_vel = (2*m_k1*m_rho*cos(m_gamma) + m_diameter*m_k2*m_gamma + (m_diameter*m_k1*sin(m_gamma)*cos(m_gamma)/m_gamma)*(m_gamma + m_k3*delta))/(2*m_radius);
+        		m_angularVelocity.left_vel = (2*m_k1*m_rho*cos(m_gamma) - m_diameter*m_k2*m_gamma - m_k1*m_diameter*(sin(m_gamma)*cos(m_gamma)/m_gamma)*(m_gamma + m_k3*delta))/(2*m_radius);   
+        }
+	else{
+	    m_angularVelocity.right_vel = 0;
+	    m_angularVelocity.left_vel = 0;
+	}
+\end{lstlisting}
+
+
+
+
+
