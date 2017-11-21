@@ -118,7 +118,43 @@ Tasks
 	\item[1.]Move the robot to a pose
 	\item[2.]Implement odometric localization
 	\item[3.]Implement motor control for each wheel
-	\item[4.]Implement posture regulation motion control	
+	\item[4.]Implement posture regulation motion control \\
+		In general the posture regulation controller takes in the configuration variables, $q = [x, y, \theta]^{T}$, 
+		and outputs v and $\omega$.
+		It is assumed that the desired variables are $q_{d} = [0, 0, 0]^{T}$ and the error from $q_{d}$ is represented by following variables:
+		\[
+			\rho = \sqrt{x^{2} + y^{2}} 
+		\]\[
+			\gamma = Atan2(y, x) - \theta + \pi
+		\]\[
+			\delta = \gamma + \theta
+		\]
+		Where $\rho = ||\vec{e_{p}}||$ is the distance between current point $(x, y)$ and desired point $(0, 0)$, 
+		$\gamma$ is the angle between $\vec{e_{p}}$	and the sagittal axis of the vehicle and $\delta$ is the axis between $\vec{e_{p}}$ and the x-axis.	
+		v and $\omega$ are found by:
+		\begin{equation}
+			v = k_{1}\rho cos(\gamma)
+		\end{equation}		
+		\begin{equation}
+			\omega = k_{2}\gamma + k_{1}\frac{sin(\gamma)cos(\gamma)}{\gamma}(\gamma + k_{3}\delta)
+		\end{equation}
+		
+		In our implementation of the controller we get $\vec{q}$ from the odometric module and output $\omega_{R}$ and $\omega_{L}$ to the motor controller.
+		Equations for $\omega_{R}$ and $\omega_{L}$ expressed by error variables $\rho$, $\gamma$ and $\delta$, 
+		by setting the following equations (3) and (4) equal to equations (1) and (2) respectively, 
+		\begin{equation}
+			v = \frac{r(\omega_{R} + \omega_{L})}{2}
+		\end{equation}
+		\begin{equation}
+			\omega = \frac{r(\omega_{R} - \omega_{L})}{d}
+		\end{equation}
+		and then solve for $\omega_{R}$ and $\omega_{L}$ by the inserting method. This yields:		
+		\begin{equation}
+			\omega_{R} = \frac{2k_{1}\rho cos(\gamma)}{2r} + \frac{dk{2}\gamma}{2r} + \frac{dsin(\gamma)cos(\gamma)(\gamma + k_{3}\delta)}{2r\gamma}
+		\end{equation}
+		\begin{equation}
+			\omega_{L} = \frac{2k_{1}\rho cos(\gamma)}{2r} - \frac{dk_{2}\gamma}{2r} - \frac{dsin(\gamma)cos(\gamma)(\gamma + k_{3}\delta)}{2r\gamma}
+		\end{equation}
 \end{itemize}
 
 
