@@ -90,7 +90,7 @@ int main(int argc, char **argv) {
     ros::NodeHandle nh;
     ros::Publisher angularVelocityPublisher = nh.advertise<rover1_motordriver::Velocity>("/cmd_vel", 10);
 
-    PostureHandler postureHandler(atof(argv[1]), atof(argv[2]), atof(argv[3]), 0.285, 0.06);
+    PostureHandler postureHandler(atof(argv[1]), atof(argv[2]), atof(argv[3]), 0.335, 0.06);
 
     ros::Subscriber positionSubscriber = nh.subscribe("/odometry", 1, &PostureHandler::updatePosition, &postureHandler);
     ros::Subscriber thetaSubscriber = nh.subscribe("/theta", 1, &PostureHandler::updateTheta, &postureHandler);
