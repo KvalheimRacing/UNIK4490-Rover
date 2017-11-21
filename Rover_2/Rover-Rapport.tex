@@ -20,6 +20,7 @@
 \graphicspath{./dir/} 
 \usepackage{mathpazo} % Palatino font
 
+
 \begin{document}
 
 %----------------------------------------------------------------------------------------
@@ -106,32 +107,52 @@
 \renewcommand{\labelenumi}{\alph{enumi})}
 
 
-\section*{Introduction}
-
-
-The main task of the project was to make the robot move to a desired pose, and this was divided into four subtasks/stages as listed below the following summary:\\  
-\textit{A significant portion of the project time was spent on reverse engineering the robot to better understand the system before we could begin implementing our own solutions.  
-We decided to keep the original PID motor control code and write code for odometric localization and posture regulation. 
-Most of the work was done in collaboration with the other group, 
+\section{Introduction}
+The main goal of this project was to implement motor control, posture regulation and odometric localization in order to get the robot to move do a desired pose. Another important part of the project was to learn about ROS to make it possible to implement ROS nodes for the tasks above.\\
+A significant portion of the project time was spent on reverse engineering the robot to better understand the system before we could begin implementing our own solutions.  Most of the work was done in collaboration with the other group, 
 as we were working on the same robot while trying to get the system up and running. \\
-(Note! One important subtask that is not mentioned in the list was to create a system of ROS nodes, for which we had to learn about ROS.)}
 
-\section*{The System}
+\section{The System}
+Figure 1 shows a block diagram of the system. It consists of posture regulaton, motor controller, kinematic model, and odometry. The following subchapters describes will describe this in more detail.
+
 	\begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{blokkskjema}
+	\includegraphics[width=0.9\textwidth]{blokkskjema}
 	\caption{Block diagram of the system.}	
  	\label{fig:2}
 	\end{figure}
 
-\subsection*{Motor Control}
-	Implement motor control for each wheel \\
-		We started our project by running and reverse engineering the mobile robot together with the other group. 
-		As we were not familiar with the system and since there were no README or comments in the code, the challenges for reverse engineering the motor controller was: 
-		to login, to run robot, understand the controller and deduce the reason behind the constants in the controller.
-		The implementation of motor control for each wheel was already avaiable in the robots source. 
+\subsection{Kinematic Model}
+We used the kinematic model of a unicycle from page 478 in the book, where $v$ is the driving velocity and $\omega$ is the steering velocity.
 
-\subsection*{Odometric Localization}
+\begin{equation}
+	\begin{bmatrix}
+	\dot{x}\\ 
+	\dot{y}\\
+	\dot{\theta}\\  
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+	cos\theta\\ 
+	sin\theta\\
+	0\\  
+	\end{bmatrix}v
+	+
+	\begin{bmatrix}
+	0\\ 
+	0\\
+	1\\  
+	\end{bmatrix}\omega
+\end{equation}
+
+
+\subsection{Motor Control}
+	We started our project by running and reverse engineering the mobile robot together with the other group.
+	As we were not familiar with the system and since there were no README or comments in the code, the challenges for 		reverse engineering the motor controller was: 
+	to login, to run robot, understand the controller and deduce the reason behind the constants in the controller.
+	The implementation of motor control for each wheel was already avaiable in the robots source. 
+
+\subsection{Odometric Localization}
 		
 		\begin{equation}
 		x_{k+1}=x_k+\frac{v_k}{\omega_k}(sin\theta_{k+1}-sin\theta_k)
@@ -143,20 +164,22 @@ as we were working on the same robot while trying to get the system up and runni
 		\theta_{k+1}=\theta_k+\omega_kT_s
 		\end{equation}
 		
-\subsection*{Posture Regulation}
+\subsection{Posture Regulation}
 
 	
 		In general the posture regulation controller takes in the configuration variables, $q = [x, y, \theta]^{T}$, 
 		and outputs v and $\omega$.
-		It is assumed that the desired variables are $q_{d} = [0, 0, 0]^{T}$ and the error from $q_{d}$ is represented by following variables:
-		\[
+		It is assumed that the desired variables are $q_{d} = [0, 0, 0]^{T}$ and the error from $q_{d}$ is represented by
+		\begin{equation}
 			\rho = \sqrt{x^{2} + y^{2}} 
-		\]\[
+		\end{equation}
+		\begin{equation}
 			\gamma = Atan2(y, x) - \theta + \pi
-		\]\[
+		\end{equation}
+		\begin{equation}
 			\delta = \gamma + \theta
-		\]
-		Where $\rho = ||\vec{e_{p}}||$ is the distance between current point $(x, y)$ and desired point $(0, 0)$, 
+		\end{equation}
+		where $\rho = ||\vec{e_{p}}||$ is the distance between current point $(x, y)$ and desired point $(0, 0)$, 
 		$\gamma$ is the angle between $\vec{e_{p}}$	and the sagittal axis of the vehicle and $\delta$ is the axis between $\vec{e_{p}}$ and the x-axis.	
 		v and $\omega$ are found by:
 		\begin{equation}
@@ -182,8 +205,8 @@ as we were working on the same robot while trying to get the system up and runni
 		\begin{equation}
 			\omega_{L} = \frac{2k_{1}\rho cos(\gamma)}{2r} - \frac{dk_{2}\gamma}{2r} - \frac{dsin(\gamma)cos(\gamma)(\gamma + k_{3}\delta)}{2r\gamma}
 		\end{equation}
-		
-\section*{Testing the Robot}
+
+\section{Testing and Results}
 
 
 \end{document}
