@@ -17,10 +17,8 @@ The folder "Rover_1" contains all software for the rover without lidar, and the 
 
 
 #### Other useful information (pending)
-- Rover 2 has wifi (pwd now retrieved Martin has connected through ssh
-- All encoders on rover 1 is working (although unstable usb), there is a teensy for reading the values (rover 2 has the same setup, but not tested)
+- Rover 2 and/or 3 has wifi - login through ssh rosuser@10.10.0.1
+- There is a teensy 3.1 for reading encoder data
 - The motor driver on each rover controls both wheel at one side at the same time (meaning you control either left or right wheels)
-- driver_pid.py works now, sometimes the usb plug just need to be taken in and out
--driver_pid.py needs to be modified to send out the correct velocities on the topic /est_vel. The correct velocities is commented out and is laying on rover 1 now.
-- modified driver.py (that worked), to include driving the wheels on both sides and reading encoder data. driver.py needs further to listen to the topic /cmd_vel and assign speeds based on that (or one can fix driver_pid.py).
-- [uio repo](https://github.uio.no/UNIK4490/rover_setup)
+- when running driver_pid.py you need to take the usb plug in and out the first time
+- [Course repo](https://github.uio.no/UNIK4490/rover_setup)
