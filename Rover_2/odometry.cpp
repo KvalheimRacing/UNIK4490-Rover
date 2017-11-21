@@ -22,7 +22,7 @@ class PositionByOdometry{
             void odometry_calculations(rover2_motordriver::Velocity vel){
 
                 // Calculating velocities with regards to world coordinates
-                velocity = (Wr-Wl)/2; // (wheel_radius*(Wr-Wl))/2; <- Old, taken away because of /est_vel is publishing m/s angular velocity
+                velocity = ((Wr-Wl)/2)*1.19; // (wheel_radius*(Wr-Wl))/2; <- Old, taken away because of /est_vel is publishing m/s angular velocity. Multiplying with 1.19 to compensate for odometric fault
 
                 // Calculating angular velocity with regards to world coordinates
                 float ohmega = (Wr-Wl)/traversial_wheelbase; // (wheel_radius*(Wr-Wl))/traversial_wheelbase; <- Old, taken away because of /est_vel is publishing m/s angular velocity
