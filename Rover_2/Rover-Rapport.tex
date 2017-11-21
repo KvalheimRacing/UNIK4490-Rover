@@ -35,6 +35,7 @@
 	%------------------------------------------------
 	%	Headings
 	%------------------------------------------------
+
 	
 	\textsc{\LARGE University of Oslo}\\[1.5cm] % Main heading such as the name of your university/college
 	
@@ -48,10 +49,10 @@
 	
 	\HRule\\[0.4cm]
 	
-	{\huge\bfseries An Unnecessarily Extra Long Convoluted Academic Title That Makes Little Sense}\\[0.4cm] % Title of your document
-	
-	\HRule\\[1.5cm]
-	
+	{\huge\bfseries Odometry and Posture Regulation for a 4 by 4 mobile robot}\\[0.4cm] % Title of your document
+	\HRule\\[0.8cm]
+	{\large{Autumn 2017}} % Date, change the \today to a set date if you want to be precise	
+	\vspace{1cm}
 	%------------------------------------------------
 	%	Author(s)
 	%------------------------------------------------
@@ -60,7 +61,7 @@
 		\begin{flushleft}
 			\large
 			\textit{Authors}\\
-			Daniel \textsc{Sander Isaksen}, Eirik \textsc{Kvalheim} and Torgrim \textsc{R. Næss}
+			Eirik \textsc{Kvalheim}, Daniel \textsc{Sander Isaksen} and Torgrim \textsc{R. Næss}
 		\end{flushleft}
 	\end{minipage}
 	~
@@ -80,9 +81,8 @@
 	%	Date
 	%------------------------------------------------
 	
-	\vfill\vfill\vfill % Position the date 3/4 down the remaining page
+	\vfill\vfill\vfill\vfill\vfill\vfill\vfill\vfill\vfill\vfill\vfill\vfil\vfill\vfill\vfill\vfill\vfill\vfill\vfill\vfill\vfill\vfill\vfill\vfill\vfill\vfill\vfill\vfill%  go wild
 	
-	{\large\today} % Date, change the \today to a set date if you want to be precise
 	
 	%------------------------------------------------
 	%	Logo
@@ -91,8 +91,8 @@
 	%\vfill\vfill
 	%\includegraphics[width=0.2\textwidth]{placeholder.jpg}\\[1cm] % Include a department/university logo - this will require the graphicx package
 	\begin{figure}[H]
-	\centering
-	 \includegraphics[width=0.5\textwidth]{rover_pic.png}
+	\raggedright
+	 \includegraphics[width=0.15\textwidth]{uiologo.png}
 	\end{figure}
 	 
 	%----------------------------------------------------------------------------------------
@@ -107,10 +107,14 @@
 \renewcommand{\labelenumi}{\alph{enumi})}
 
 
+	\begin{figure}[H]
+	\centering
+	 \includegraphics[width=0.5\textwidth]{rover_pic.png}
+	\end{figure}
+
 \section{Introduction}
-The main goal of this project was to implement motor control, posture regulation and odometric localization in order to get the robot to move do a desired pose. Another important part of the project was to learn about ROS to make it possible to implement ROS nodes for the tasks above.\\
-A significant portion of the project time was spent on reverse engineering the robot to better understand the system before we could begin implementing our own solutions.  Most of the work was done in collaboration with the other group, 
-as we were working on the same robot while trying to get the system up and running. \\
+The main goal of this project was to implement motor control, posture regulation and odometric localization in order to get the robot to move to a desired pose. We were working on an existing software stack running ROS (Robot Operating System), so getting to know the previous software aswell as ROS as a system, was also a goal in this project.\\
+A significant portion of the project time was spent on reverse engineering the robot to better understand the system in order to implement our own solutions. In the end we had also spent a lot of time on tuning the regulator parameters, aswell as compensating for odometric faulties. Most of the work was done in collaboration with another group that was working on an identical robot with the same software stack. \\
 
 \section{The System}
 Figure 1 shows a block diagram of the system. It consists of posture regulaton, motor controller, kinematic model, and odometry. The following subchapters describes will describe this in more detail.
