@@ -1,0 +1,50 @@
+%!TEX root = ../RobotOblig3.tex
+%Oppgave2.tex
+
+Den odometriske lokaliseringen ble utført ved å bruke eksakt integrasjon. Ny \(x\) og ny \(y\) ble regnet ut med
+\begin{equation}
+\begin{array}{ll}
+x_{k+1} = x_k + \frac{v_k}{\omega_k}(sin\theta_{k+1} - sin\theta_k) \\
+y_{k+1} = y_k - \frac{v_k}{\omega_k}(cos\theta_{k+1} - cos\theta_k) \\
+\theta_{k+1} = \theta_k + \omega_kT_s
+\end{array}
+\end{equation}
+
+Her er \(T_s\) samplingstiden, som i denne oppgaven var satt til 50 ms. Den eksakte integrasjonen er ikke definert for \(\omega = 0\), og vi måtte derfor ta i bruk integrasjonsmetoder fra Eulermetoden eller Runge Kutta. For \(\omega = 0\) er ny \(x\) og ny \(y\) definert som
+
+\begin{equation}
+\begin{array}{ll}
+x_{k+1} = x_k + v_kT_scos\theta_k \\
+y_{k+1} = y_k + v_kT_ssin\theta_k
+\end{array}
+\end{equation}
+
+Den odometriske lokaliseringsnoden ble implementert til å ta inn mål fra hjulencoderne (gitt i m/s) og regne ut lokaliseringen ved å bruke følgende kode:
+
+\begin{lstlisting}[frame=single]
+void updatePosition(rover1_motordriver::Velocity vel){
+
+        float diffVel = (vel.right_vel - vel.left_vel);
+        float sumVel = (vel.right_vel + vel.left_vel);
+        float omega = (diffVel)/m_diameter;
+        float oldTheta = m_theta;
+
+        m_theta = m_theta + omega*m_timeInterval;
+        m_theta = fmod(m_theta, 2*3.14);
+        if(m_theta > 3.14) m_theta = m_theta-2*3.14;
+        if(m_theta < -3.14) m_theta + 2*3.14;
+
+        m_velocity = sumVel/2;
+
+        if (omega != 0){
+            m_position.x = m_position.x + (m_velocity/omega)*(sin(m_theta) - sin(oldTheta));
+            m_position.y = m_position.y - (m_velocity/omega)*(cos(m_theta) - cos(oldTheta));
+        }
+        else{
+            m_position.x = m_position.x + m_velocity*cos(oldTheta);
+            m_position.y = m_position.y + m_velocity*sin(oldTheta);
+        }
+
+    }
+
+\end{lstlisting}
