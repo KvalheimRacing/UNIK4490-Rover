@@ -6,7 +6,7 @@
 This is a joint collaboration between two groups studying [*UNIK4490 - Control of manipulators and mobile robots*](http://www.uio.no/studier/emner/matnat/its/UNIK4490/index-eng.html) at the University of Oslo.
 In this project we have implemented odometric localization, posture control and velocity control for a mobile robot.
 
-![](https://github.com/KvalheimRacing/UNIK4490-Rover/blob/master/Rover_1/1m_test.gif)
+![](https://github.com/KvalheimRacing/UNIK4490-Rover/blob/master/Rover_2/1m_test.gif)
 
 You can read the project reports ![here](https://github.com/KvalheimRacing/UNIK4490-Rover/blob/master/Rover_2/Rover-Rapport.pdf) and ![here.](https://github.com/KvalheimRacing/UNIK4490-Rover/blob/master/Rover_1/rapport/RobotOblig3.pdf)
 
