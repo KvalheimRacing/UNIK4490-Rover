@@ -8,7 +8,7 @@ In this project we have implemented odometric localization, posture control and 
 
 ![](https://github.com/KvalheimRacing/UNIK4490-Rover/blob/master/Rover_2/1m_test.gif)
 
-You can read the project reports ![here](https://github.com/KvalheimRacing/UNIK4490-Rover/blob/master/Rover_2/Rover-Rapport.pdf) and ![here.](https://github.com/KvalheimRacing/UNIK4490-Rover/blob/master/Rover_1/rapport/RobotOblig3.pdf)
+You can read the project reports ![here(English - Group 2)](https://github.com/KvalheimRacing/UNIK4490-Rover/blob/master/Rover_2/Rover-Rapport.pdf) and ![here(Norwegian - Group 1).](https://github.com/KvalheimRacing/UNIK4490-Rover/blob/master/Rover_1/rapport/RobotOblig3.pdf)
 
 
 
