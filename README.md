@@ -1,4 +1,4 @@
-<img src="https://github.com/KvalheimRacing/UNIK4490-Rover/blob/master/Rover_2/rover_pic.jpg" width="500" height="440">
+<img src="https://github.com/KvalheimRacing/UNIK4490-Rover/blob/master/Rover_2/rover_pic.jpg" width="800" height="700">
 
 # UNIK4490-Rover
 > A 4-by-4 rover project
