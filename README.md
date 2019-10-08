@@ -3,12 +3,12 @@
 # UNIK4490-Rover
 > A 4-by-4 rover project
 
-This is a joint collaboration between two groups studying [*UNIK4490 - Control of manipulators and mobile robots*](http://www.uio.no/studier/emner/matnat/its/UNIK4490/index-eng.html) at the University of Oslo.
+This is a joint collaboration between two groups studying [*UNIK4490 - Control of manipulators and mobile robots*](https://www.uio.no/studier/emner/matnat/its/TEK4030/index-eng.html) at the University of Oslo.
 In this project we have implemented odometric localization, posture control and velocity control for a mobile robot.
 
 ![](https://github.com/KvalheimRacing/UNIK4490-Rover/blob/master/Rover_2/1m_test.gif)
 
-You can read the project reports ![here(English - Group 2)](https://github.com/KvalheimRacing/UNIK4490-Rover/blob/master/Rover_2/Rover-Rapport.pdf) and ![here(Norwegian - Group 1).](https://github.com/KvalheimRacing/UNIK4490-Rover/blob/master/Rover_1/rapport/RobotOblig3.pdf)
+You can read the project reports [here (English - Group 2)](https://github.com/KvalheimRacing/UNIK4490-Rover/blob/master/Rover_2/Rover-Rapport.pdf) and [here (Norwegian - Group 1).](https://github.com/KvalheimRacing/UNIK4490-Rover/blob/master/Rover_1/rapport/RobotOblig3.pdf)
 
 The folder "Rover_1" contains all software for the rover without lidar, and the folder "Rover_2" contains the software for the rover with lidar
 
